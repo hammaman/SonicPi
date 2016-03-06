@@ -1,0 +1,93 @@
+# SONG COMPOSER V1
+# Written by Andrew Hammacott
+
+# CODE FOR BUFFER 3
+# THE DRUM BEAT
+# Live loop drumbeat
+
+
+live_loop :drumbeat do
+  sync :tick
+
+  playdrumsonbartype = [0,1,2,3,4,3,5]
+
+
+  cymbalbartype1 = (ring 1,0,1,0,0,0,1,0)
+  snarebartype1 =  (ring 0,0,0,0,1,0,1,0)
+
+  cymbalbartype2 = (ring 1,0,0,0,1,0,0,0)
+  snarebartype2 =  (ring 0,0,1,0,0,0,1,0)
+
+  cymbalbartype3 = (ring 1,0,1,0,1,0,1,0)
+  snarebartype3 =  (ring 1,0,0,0,1,0,0,0)
+
+  # LOOP
+
+  playcymbal = 0
+  playsnare = 0
+  drumpattern = playdrumsonbartype[$thisbar - 1]
+
+  #Work out what should be played
+  if drumpattern == 0 or drumpattern > 4
+    playcymbal = 0
+    playsnare = 0
+  end
+  if drumpattern == 1
+    playcymbal = cymbalbartype1[$beatcount - 1]
+    playsnare = snarebartype1[$beatcount - 1]
+  end
+  if drumpattern == 2
+    playcymbal = cymbalbartype2[$beatcount - 1]
+    playsnare = snarebartype2[$beatcount - 1]
+  end
+  if drumpattern == 3
+    playcymbal = cymbalbartype3[$beatcount - 1]
+    playsnare = snarebartype3[$beatcount - 1]
+  end
+
+  # Check to see whether these patterns are overridden if the instrument is turned off
+  if $turnoffsnare == 1
+    playsnare = 0
+  end
+  if $turnoffcymbal == 1
+    playcymbal = 0
+  end
+
+  # Play the samples
+  # Cymbal
+  with_fx :echo, phase: 0.125, mix:0.4 do
+    sample :drum_cymbal_soft, sustain: 0, release: 0.1 if (playcymbal == 1)
+  end
+  sample :bd_tek if (playcymbal == 1)
+
+  # Snare
+  with_fx :pan, phase: 0.125, mix:0.4 do
+    sample :drum_snare_soft, sustain: 0.25, release:0.1 if (playsnare == 1)
+  end
+  sample :bd_haus, amp:2 if (playsnare == 1)
+
+  # Sample noise, played at the start of every other bar
+  if $beatcount == 1 and ($barcount % 2) == 1 and (drumpattern < 4)
+    sample :ambi_lunar_land, attack: 0, sustain: 0, release: $beattime * $beatsinabar / 2
+  end
+
+  # Sample played where playdrumsonbartype is 4 or 5
+  if $beatcount % 2 == 1 and $beatcount < 4 and drumpattern == 4
+    sample :drum_cymbal_open, attack: 0, sustain: 0, release: $beattime * $beatsinabar / 2
+  end
+
+  # Extra samples played where playdrumsonbartype is 5
+  if drumpattern == 5
+    # Play on odd numbered beats
+    if $beatcount % 2 == 1
+      sample :drum_cymbal_pedal, attack: 0, sustain: 0, release: $beattime * $beatsinabar / 2
+    end
+    # Play on even numbered beats
+    if $beatcount % 2 == 0
+      sample :drum_heavy_kick, attack: 0, sustain: 0, release: $beattime * $beatsinabar / 2
+    end
+  end
+
+end
+
+# END OF Live loop drumbeat
