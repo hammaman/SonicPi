@@ -1,0 +1,76 @@
+# SONG COMPOSER V2
+# Written by Andrew Hammacott
+
+# CODE FOR BUFFER 2
+#  THE TIMING LOOP
+#  Live loop timer
+
+live_loop :timer do
+  cue :tick
+  $beatcount = $beatcount + 1
+  if $beatcount > $beatsinabar
+    currentbeattype = $thissong[$barcount - 1]
+    $barcount = $barcount + 1
+    newbeattype = $thissong[$barcount - 1]
+    $beatcount = 1
+    print '****************************'
+    print '**        NEW BAR         **'
+    print '****************************'
+    if currentbeattype != newbeattype
+      print '****************************     CHANGING CHORD    **'
+      $thischnum = $nextschnum
+      if $thischnum == 1
+        $nextschnum = $nextch1.choose
+      end
+      if $thischnum == 2
+        $nextschnum = $nextch2.choose
+      end
+      if $thischnum == 3
+        $nextschnum = $nextch3.choose
+      end
+      if $thischnum == 4
+        $nextschnum = $nextch4.choose
+      end
+      if $thischnum == 5
+        $nextschnum = $nextch5.choose
+      end
+      if $thischnum == 6
+        $nextschnum = $nextch6.choose
+      end
+      if $thischnum == 7
+        $nextschnum = $nextch7.choose
+      end
+    end
+    print 'Chord number = ' + $thischnum.to_s
+    print 'Next chord number = ' + $nextschnum.to_s
+  end
+
+  # Determine notes in the triad for the current bar
+
+  $thisbartriadnotes[0] = $keynote + $key5cale[$thischnum - 1]
+  if $thischnum == 1 or $thischnum == 4 or $thischnum == 5
+    $thisbartriadnotes[1] = $thisbartriadnotes[0] + 4
+    $thisbartriadnotes[2] = $thisbartriadnotes[0] + 7
+  else
+    $thisbartriadnotes[1] = $thisbartriadnotes[0] + 3
+    $thisbartriadnotes[2] = $thisbartriadnotes[0] + 7
+  end
+
+  # Now do the same for the next bar
+  $nextbartriadnotes[0] = $keynote + $key5cale[$nextschnum - 1]
+  if $nextschnum == 1 or $nextschnum == 4 or $nextschnum == 5
+    $nextbartriadnotes[1] = $nextbartriadnotes[0] + 4
+    $nextbartriadnotes[2] = $nextbartriadnotes[0] + 7
+  else
+    $nextbartriadnotes[1] = $nextbartriadnotes[0] + 3
+    $nextbartriadnotes[2] = $nextbartriadnotes[0] + 7
+  end
+
+  $thisbar = $thissong[$barcount - 1]
+  print 'beatcount = ' + $beatcount.to_s
+  print 'barcount = ' + $barcount.to_s
+  print 'thisbar = ' + $thisbar.to_s
+  sleep $beattime
+end
+
+# END OF Live loop timer

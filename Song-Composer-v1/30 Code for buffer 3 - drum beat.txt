@@ -1,0 +1,33 @@
+# SONG COMPOSER V1
+# Written by Andrew Hammacott
+
+# CODE FOR BUFFER 3
+# THE DRUM BEAT
+# Live loop drumbeat
+
+
+live_loop :drumbeat do
+  sync :tick
+
+  cymbalbarpattern = (ring 1,0,0,0,1,0,0,0)
+  snarebarpattern =  (ring 0,0,1,0,0,0,1,0)
+
+  playcymbal = cymbalbarpattern[$beatcount - 1]
+  playsnare = snarebarpattern[$beatcount - 1]
+
+  # Play the samples
+  # Cymbal
+  with_fx :echo, phase: 0.125, mix:0.4 do
+    sample :drum_cymbal_soft, sustain: 0, release: 0.1 if (playcymbal == 1)
+  end
+  sample :bd_tek if (playcymbal == 1)
+
+  # Snare
+  with_fx :pan, phase: 0.125, mix:0.4 do
+    sample :drum_snare_soft, sustain: 0.25, release:0.1 if (playsnare == 1)
+  end
+  sample :bd_haus, amp:2 if (playsnare == 1)
+
+end
+
+# END OF Live loop drumbeat

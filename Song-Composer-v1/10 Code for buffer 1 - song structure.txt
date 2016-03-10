@@ -1,0 +1,17 @@
+# SONG COMPOSER V1
+# Written by Andrew Hammacott
+
+# CODE FOR BUFFER 1
+# Set up the structure of the song
+
+# Set random seed to generate a random set of chords
+use_random_seed 12
+
+# Set the keynote and 5cale here
+$keynote = 72
+$key5cale = $major5cale
+
+# Set up the number of beats in each bar, and the time between beats
+$beatsinabar = 8  #Number of beats in each bar
+$beattime = 0.25   #Time between each beat in seconds
+

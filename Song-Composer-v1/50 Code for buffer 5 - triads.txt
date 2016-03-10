@@ -1,0 +1,26 @@
+# SONG COMPOSER V1
+# Written by Andrew Hammacott
+
+# CODE FOR BUFFER 5
+# THE TRIADS
+# Live loop tune_triads
+
+live_loop :tune_triads do
+  sync :tick
+
+  # Determine the pattern of notes in each bar
+  playtriadbarpattern = (ring 1,0,1,0,1,0,1,0)
+
+  #  triadnote is the note chosen to be played (one of the possible three)
+  triadnote = $thisbartriadnotes[rrand_i(0,2)]
+
+  print '** Playing note # ' + triadnote.to_s
+
+  # Play notes - we play both the note and one an octave lower
+  if playtriadbarpattern[$beatcount - 1]
+    use_synth :piano
+    play triadnote, release: $beattime * 2, pan: 0.2, amp: 0.6
+    play triadnote - 12, attack: 0.1, release: (($beattime * 2) - 0.05), pan: -0.2, amp: 0.6
+  end
+
+end
