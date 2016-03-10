@@ -1,4 +1,4 @@
-# SONG COMPOSER V1
+# SONG COMPOSER V2
 # Written by Andrew Hammacott
 
 # CODE FOR BUFFER 3
