@@ -14,5 +14,6 @@
  There are different versions as I explore and discover what works and what doesn't!
  
  Version 1: Basic code, with no variation between bars (for discussion at Raspberry Jams)
+ 
  Version 2: Developed with some variation between bars
  
