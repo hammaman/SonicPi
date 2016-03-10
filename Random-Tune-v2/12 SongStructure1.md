@@ -1,6 +1,6 @@
 -------------------------------------------------------------------------------------------
 
-  SONG COMPOSER V1
+  SONG COMPOSER V2
     Written by Andrew Hammacott
     For Sonic Pi by Sam Aaron
 
